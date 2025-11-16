@@ -17,14 +17,14 @@ export function ThemeToggle() {
       checkedChildren={
         isDark && 
         <>
-          <Sun className="size-4" aria-hidden="true" />
+          <Sun className="size-3.5" aria-hidden="true" />
           {/* <span className="text-xs font-semibold">Light</span> */}
         </>
       }
       uncheckedChildren={
         !isDark && 
         <>
-          <Moon className="size-4.5" aria-hidden="true" />
+          <Moon className="size-3.5" aria-hidden="true" />
           {/* <span className="text-xs font-semibold">Dark</span> */}
         </>
       }

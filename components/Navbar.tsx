@@ -8,14 +8,28 @@ import { cn } from "@/lib/utils";
 // keyup-based search propagation
 import * as React from "react";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { signOutUser } from "@/lib/actions/user.actions";
 
 export function Navbar({ className, onSearchChange }: { className?: string; onSearchChange?: (value: string) => void }) {
   const [query, setQuery] = React.useState("");
+  const [signingOut, setSigningOut] = React.useState(false);
 
   const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const value = (e.currentTarget as HTMLInputElement).value;
     if (value.length >= 3) onSearchChange?.(value);
     else if (value.length === 0) onSearchChange?.("");
+  };
+
+  const onLogout = async () => {
+    try {
+      setSigningOut(true);
+      await signOutUser();
+      if (typeof window !== "undefined") {
+        window.location.assign("/sign-in");
+      }
+    } finally {
+      setSigningOut(false);
+    }
   };
 
   return (
@@ -65,7 +79,9 @@ export function Navbar({ className, onSearchChange }: { className?: string; onSe
               <Link href="/settings" className="flex items-center gap-2"><Settings className="h-4 w-4" /> Settings</Link>
             </DropdownItem>
             <DropdownItem>
-              <button className="flex w-full items-center gap-2 text-left"><LogOut className="h-4 w-4" /> Logout</button>
+              <button onClick={onLogout} className="flex w-full items-center gap-2 text-left" disabled={signingOut}>
+                <LogOut className="h-4 w-4" /> {signingOut ? "Logging out..." : "Logout"}
+              </button>
             </DropdownItem>
           </DropdownMenu>
         </div>

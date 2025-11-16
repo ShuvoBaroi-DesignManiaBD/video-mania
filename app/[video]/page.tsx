@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import { useSearchParams} from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import { useVideos } from "@/hooks/useVideos";
 import { getVideoAbsoluteUrl, type Video } from "@/lib/api";
@@ -12,21 +12,23 @@ export default function VideoPage() {
 
   const { state, setSearch, loadMore } = useVideos({ pageSize: 24 });
   // const videoParam = decodeURIComponent(String(params?.video ?? ""));
-  const id = searchParams.get('id');
+  const id = searchParams.get("id");
 
   const selected: Video | undefined = React.useMemo(() => {
     return state.videos.find((v) => v.id === id) ?? state.videos[0];
   }, [id, state.videos]);
 
   console.log(selected);
-  
 
   const [loaded, setLoaded] = React.useState(false);
   React.useEffect(() => {
     setLoaded(false);
   }, [selected?.url]);
 
-  const onSearchChange = React.useCallback((q: string) => setSearch(q), [setSearch]);
+  const onSearchChange = React.useCallback(
+    (q: string) => setSearch(q),
+    [setSearch]
+  );
 
   return (
     <div className="min-h-screen">
@@ -50,18 +52,24 @@ export default function VideoPage() {
                   <video
                     key={selected.url}
                     src={getVideoAbsoluteUrl(selected)}
-                    className={`h-full w-full object-contain transition-opacity duration-500 ${loaded ? "opacity-100" : "opacity-0"}`}
+                    className={`h-full w-full object-contain transition-opacity duration-500 ${
+                      loaded ? "opacity-100" : "opacity-0"
+                    }`}
                     controls
                     playsInline
                     onLoadedData={() => setLoaded(true)}
                   />
                 ) : (
-                  <div className="grid h-full w-full place-items-center text-muted-foreground">No video selected</div>
+                  <div className="grid h-full w-full place-items-center text-muted-foreground">
+                    No video selected
+                  </div>
                 )}
               </div>
               {selected && (
                 <div className="flex flex-col gap-4 px-3 py-4">
-                  <h1 className="mt-3 truncate text-lg font-semibold">{selected.displayName ?? selected.filename}</h1>
+                  <h1 className="mt-3 truncate text-lg font-semibold">
+                    {selected.displayName ?? selected.filename}
+                  </h1>
                 </div>
               )}
             </div>
@@ -70,7 +78,9 @@ export default function VideoPage() {
           {/* Related content section */}
           <aside className="md:col-span-2">
             <div className="rounded-lg shadow-sm bg-accent-foreground/10 p-3">
-              <h2 className="mb-3 text-xl font-semibold text-muted-foreground">Related videos</h2>
+              <h2 className="mb-3 text-xl font-semibold text-muted-foreground">
+                Related videos
+              </h2>
               <div className="grid grid-cols-1 gap-4 pr-4 overflow-y-scroll [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-sidebar-primary/20  scrollbar-track-transparent scrollbar-thumb-rounded-md max-h-[70vh]">
                 {state.videos
                   .filter((v) => v.filename !== selected?.filename)
