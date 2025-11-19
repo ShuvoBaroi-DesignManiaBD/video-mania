@@ -21,7 +21,7 @@ export function SearchBar({ onChange }: { onChange?: (value: string) => void }) 
         onChange={(e) => setQuery(e.target.value)}
         onKeyUp={handleKeyUp}
         placeholder="Search videos"
-        className="pl-9"
+        className="pl-9 rounded-3xl w-84"
       />
     </div>
   );

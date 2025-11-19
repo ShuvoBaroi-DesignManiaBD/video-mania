@@ -7,7 +7,7 @@ import VideoGrid from "@/components/VideoGrid";
 import VideoGridSkeleton from "@/components/VideoGridSkeleton";
 import Message from "@/components/Message";
 
-export default function Home() {
+export default function MyVideos() {
   const { state, setSearch, loadMore } = useVideos({ pageSize: 24 });
 
   const renderContent = () => {

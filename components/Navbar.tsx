@@ -1,24 +1,17 @@
 "use client";
+
 import Link from "next/link";
-import { Input } from "@/components/ui/input";
 import Avatar from "@/components/ui/avatar";
 import { DropdownItem, DropdownMenu } from "@/components/ui/dropdown-menu";
-import { Search, Upload, Settings, LogOut, Video } from "lucide-react";
+import { Video, Settings, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
-// keyup-based search propagation
 import * as React from "react";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { signOutUser } from "@/lib/actions/user.actions";
+import SearchBar from "./SearchBar";
 
-export function Navbar({ className, onSearchChange }: { className?: string; onSearchChange?: (value: string) => void }) {
-  const [query, setQuery] = React.useState("");
+export function Navbar({ className }: { className?: string }) {
   const [signingOut, setSigningOut] = React.useState(false);
-
-  const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    const value = (e.currentTarget as HTMLInputElement).value;
-    if (value.length >= 3) onSearchChange?.(value);
-    else if (value.length === 0) onSearchChange?.("");
-  };
 
   const onLogout = async () => {
     try {
@@ -33,54 +26,84 @@ export function Navbar({ className, onSearchChange }: { className?: string; onSe
   };
 
   return (
-    <header className={cn("sticky py-2 top-0 z-40 w-full border-b border-border dark:bg-white backdrop-blur supports-[backdrop-filter]:bg-card/80", className)}>
-      <div className="mx-auto flex h-14 max-w-7xl items-center gap-4 px-4">
-        {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
-            <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-pink-400">
-              <Video className="w-6 h-6 text-secondary" />
-            </div>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-pink-400 bg-clip-text text-transparent">
-              VideoMania
-            </h1>
-          </Link>
+    <header
+      className={cn(
+        "w-full",
+        className
+      )}
+    >
+      <div className="mx-auto flex justify-between px-4 py-4 items-center gap-6 dark:bg-transparent">
+        <div className="flex items-center gap-18">
+        {/* Logo - Hidden on mobile since sidebar has it */}
+        <Link
+          href="/"
+          className="hidden md:flex gap-2 transition-all duration-300 hover:scale-105"
+        >
+          {/* <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-primary via-purple-500 to-pink-500 shadow-lg group-hover:shadow-xl transition-all duration-300"> */}
+            <Video className="size-6 text-white drop-shadow-sm relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-primary via-purple-500 to-pink-500 shadow-lg group-hover:shadow-xl transition-all duration-300 p-2" />
+          <h1 className="text-[26px] font-bold bg-gradient-to-r from-primary via-purple-500 to-pink-500 bg-clip-text text-transparent drop-shadow-sm tracking-tight">
+            VideoMania
+          </h1>
+        </Link>
 
-        {/* Center: Search */}
-        <div className="w-full">
-          <div className="relative mx-auto max-w-[40vw] 2xl:max-w-[40vw] 4xl:max-w-[50vw]">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              onKeyUp={handleKeyUp}
-              placeholder="Search videos"
-              className="pl-9"
-            />
-          </div>
+        {/* Center: Page Title for Mobile */}
+        <div className="lg:hidden flex-1 text-center">
+          <h1 className="text-xl font-bold bg-gradient-to-r from-primary via-purple-500 to-pink-500 bg-clip-text text-transparent tracking-tight">
+            VideoMania
+          </h1>
         </div>
 
+        <SearchBar></SearchBar>
+        </div>
         {/* Right: Theme toggle + User dropdown */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <ThemeToggle />
           <DropdownMenu
             trigger={
-              <div className="flex items-center gap-3">
-                <Avatar className=""/>
+              <div className="group relative self-center flex items-center gap-3 rounded-2xl transition-all duration-300 cursor-pointer">
+                <div className="relative">
+                  <Avatar className="transition-all duration-300" />
+                  <div className="absolute -bottom-0.5 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-background" />
+                </div>
               </div>
             }
           >
             <DropdownItem>
-              <Link href="/profile">Profile</Link>
+              <Link
+                href="/profile"
+                className="flex items-center gap-3 py-2 hover:bg-accent/50 transition-colors duration-200 rounded-lg"
+              >
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-purple-500 flex items-center justify-center">
+                  <Video className="w-4 h-4 text-white" />
+                </div>
+                <span className="font-medium">Profile</span>
+              </Link>
+            </DropdownItem>
+            <div className="border-t border-border/20 my-1" />
+
+            <DropdownItem>
+              <Link
+                href="/settings"
+                className="flex items-center gap-3 py-2 hover:bg-accent/50 transition-colors duration-200 rounded-lg"
+              >
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-slate-500 to-slate-700 flex items-center justify-center">
+                  <Settings className="w-4 h-4 text-white" />
+                </div>
+                <span className="font-medium">Settings</span>
+              </Link>
             </DropdownItem>
             <DropdownItem>
-              <Link href="/upload" className="flex items-center gap-2"><Upload className="h-4 w-4" /> Upload</Link>
-            </DropdownItem>
-            <DropdownItem>
-              <Link href="/settings" className="flex items-center gap-2"><Settings className="h-4 w-4" /> Settings</Link>
-            </DropdownItem>
-            <DropdownItem>
-              <button onClick={onLogout} className="flex w-full items-center gap-2 text-left" disabled={signingOut}>
-                <LogOut className="h-4 w-4" /> {signingOut ? "Logging out..." : "Logout"}
+              <button
+                onClick={onLogout}
+                className="flex w-full items-center gap-3 py-2 text-left"
+                disabled={signingOut}
+              >
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-red-500 to-red-700 flex items-center justify-center">
+                  <LogOut className="w-4 h-4 text-white" />
+                </div>
+                <span className="font-medium text-destructive">
+                  {signingOut ? "Logging out..." : "Sign Out"}
+                </span>
               </button>
             </DropdownItem>
           </DropdownMenu>

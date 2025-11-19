@@ -1,0 +1,2 @@
+1. As this next js project running in pnpm. Always use pnpm commands instead of the npm commands
+2. Always check that there is already a server running by "pnpm dev"/ "npm dev" or not. If there is, don't run another instance.

@@ -12,11 +12,12 @@ type OTPContextValue = {
 
 const OTPContext = React.createContext<OTPContextValue | null>(null);
 
-export interface InputOTPProps extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface InputOTPProps {
   maxLength?: number;
   value: string;
   onChange: (value: string) => void;
   children?: React.ReactNode;
+  className?: string;
 }
 
 export function InputOTP({ maxLength = 6, value, onChange, className, children, ...props }: InputOTPProps) {

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css"
+import "./globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,7 +24,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-background text-foreground transition-colors`}>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased max-h-screen bg-background text-foreground transition-colors tracking-wide overflow-hidden`}
+      >
+        {/* Modern background gradient overlay */}
+        <div className="inset-0 bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-900 dark:via-slate-950 dark:to-slate-800 -z-10" />
         {children}
       </body>
     </html>

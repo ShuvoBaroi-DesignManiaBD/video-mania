@@ -32,9 +32,7 @@ export default function VideoPage() {
 
   return (
     <div className="min-h-screen">
-      <Navbar onSearchChange={onSearchChange} />
-
-      <main className="mx-auto max-w-7xl px-4 py-10">
+      <main>
         {/* Error */}
         {state.error && (
           <div className="rounded-md border border-destructive/40 bg-destructive/10 p-3 text-sm text-destructive">

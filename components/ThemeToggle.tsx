@@ -5,13 +5,13 @@ import { Moon, Sun } from "lucide-react";
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
-  const isDark = theme === "theme-blue-dark";
+  const isDark = theme === "dark";
 
   return (
     <Switch
       checked={isDark}
       onCheckedChange={(checked) =>
-        setTheme(checked ? "theme-blue-dark" : "theme-blue-light")
+        setTheme(checked ? "dark" : "light")
       }
       aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
       checkedChildren={

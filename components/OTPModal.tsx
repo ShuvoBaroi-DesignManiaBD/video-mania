@@ -132,7 +132,7 @@ const OtpModal = ({
               Didn&apos;t get a code?
               <Button
                 type="button"
-                variant="link"
+                variant="ghost"
                 className="pl-1 text-primary"
                 onClick={handleResendOtp}
                 disabled={cooldown > 0}
